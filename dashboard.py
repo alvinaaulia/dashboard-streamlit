@@ -9,7 +9,7 @@ df["order_purchase_timestamp"] = pd.to_datetime(df["order_purchase_timestamp"])
 
 with st.sidebar:
     st.title("📊 Dashboard E-Commerce") 
-    st.image("D:/CodingCamp/Belajar Python/submission/dashboard/mokaa.png")
+    st.image("mokaa.png")
     
     min_date = df["order_purchase_timestamp"].min().date()
     max_date = df["order_purchase_timestamp"].max().date()
