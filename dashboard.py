@@ -7,7 +7,7 @@ df = pd.read_csv("all_data.csv")
 
 with st.sidebar:
     st.title("📊 Dashboard E-Commerce") 
-    st.image("D:\CodingCamp\Belajar Python\submission\dashboard\mokaa.png")
+    st.image("mokaa.png")
 
 st.title("E-Commerce Dashboard")
 
