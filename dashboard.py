@@ -137,4 +137,42 @@ st.pyplot(fig)
 with st.expander("ℹ️ Penjelasan Diagram"):
     st.write("Diagram ini memberikan wawasan mengenai peluang bisnis berdasarkan jumlah transaksi di tiap kota, membantu dalam menentukan lokasi strategis untuk ekspansi.")
 
+# Analisis Peluang Bisnis Berdasarkan Negara
+state_transactions = filtered_df["customer_state"].value_counts().reset_index()
+state_transactions.columns = ["state", "transaction_count"]
+
+Q1 = state_transactions["transaction_count"].quantile(0.25)
+Q3 = state_transactions["transaction_count"].quantile(0.75)
+
+bins = [0, Q1, Q3, state_transactions["transaction_count"].max()]
+labels = ["Peluang Kecil", "Peluang Sedang", "Peluang Besar"]
+
+state_transactions["business_opportunity"] = pd.cut(
+    state_transactions["transaction_count"], bins=bins, labels=labels, include_lowest=True
+)
+
+state_transactions = state_transactions.sort_values(by="transaction_count", ascending=False)
+
+category_opportunity_state = state_transactions["business_opportunity"].value_counts().reset_index()
+category_opportunity_state.columns = ["business_opportunity", "count"]
+
+st.subheader("Peluang Bisnis Berdasarkan Negara")
+fig, ax = plt.subplots(figsize=(10, 5))
+sns.barplot(
+    x="business_opportunity",
+    y="count",
+    data=category_opportunity_state,
+    order=["Peluang Besar", "Peluang Sedang", "Peluang Kecil"], 
+    palette=["#72BCD4", "#72BCD4", "#72BCD4"], ax=ax
+)
+
+plt.title("Distribusi Peluang Bisnis Berdasarkan Negara", fontsize=15)
+st.pyplot(fig)
+
+with st.expander("ℹ️ Penjelasan Diagram"):
+    st.write(
+        "Diagram ini menunjukkan peluang bisnis berdasarkan jumlah transaksi di setiap negara bagian. "
+        "Negara bagian dengan transaksi tinggi memiliki peluang bisnis lebih besar untuk ekspansi dan investasi."
+    )
+
 st.caption("© 2025 E-Commerce Analytics")
